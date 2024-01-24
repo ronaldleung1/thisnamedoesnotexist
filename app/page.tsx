@@ -1,17 +1,25 @@
 'use client'
 
-// import Marquee from "./components/marquee";
+import { FiCopy } from 'react-icons/fi';
 import Marquee from 'react-fast-marquee';
 import { useEffect, useState } from 'react';
 import data from './names.json';
 
 type MarqueeElementProps = {
   name: string;
+  className?: string;
 };
 
-const MarqueeElement = ({ name }: MarqueeElementProps) => {
+const MarqueeElement = ({ name, className }: MarqueeElementProps) => {
+  const [isHover, setIsHover] = useState(false);
+
   return (
-    <div className="inline-block py-1 px-2 rounded-full bg-gray-100 text-gray-900 font-medium text-sm leading-5 mr-2 mb-4">
+    <div
+      className={`inline-block py-1 px-2 text-gray-100/75 font-medium text-sm leading-5 mr-2 mb-4 cursor-pointer rounded-full box-border border border-gray-100/0 hover:text-bg-gray-100 hover:border-gray-100 hover:bg-gray-100/50 transition ease-in-out duration-300 ${className}`}
+      onMouseEnter={() => setIsHover(true)}
+      onMouseLeave={() => setIsHover(false)}
+    >
+      {isHover && <FiCopy className="mr-2 inline-block transition duration-300" />}
       {name}
     </div>
   );
