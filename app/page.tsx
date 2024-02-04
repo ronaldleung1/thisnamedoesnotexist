@@ -1,6 +1,6 @@
 'use client'
 
-import { FiCopy } from 'react-icons/fi';
+import { FiCopy, FiCheck } from 'react-icons/fi';
 import Marquee from 'react-fast-marquee';
 import { useEffect, useState } from 'react';
 import data from './names.json';
@@ -12,18 +12,25 @@ type MarqueeElementProps = {
 
 const MarqueeElement = ({ name, className }: MarqueeElementProps) => {
   const [isHover, setIsHover] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(name);
+    setIsCopied(true);
+  };
 
   return (
     <div
       className={`inline-block py-1 px-2 text-gray-100/75 font-medium text-sm leading-5 mr-2 mb-4 cursor-pointer rounded-full box-border border border-gray-100/0 hover:text-bg-gray-100 hover:border-gray-100 hover:bg-gray-100/50 transition ease-in-out duration-300 ${className}`}
       onMouseEnter={() => setIsHover(true)}
-      onMouseLeave={() => setIsHover(false)}
+      onMouseLeave={() => {setIsHover(false); setIsCopied(false)}}
+      onClick={handleCopy}
     >
-      {isHover && <FiCopy className="mr-2 inline-block transition duration-300" />}
+      {isHover && (isCopied ? <FiCheck className="mr-2 inline-block transition duration-300" /> : <FiCopy className="mr-2 inline-block transition duration-300" />)}
       {name}
     </div>
   );
-}
+};
 
 export default function Home() {
   const [names, setNames] = useState<string[]>([]);
